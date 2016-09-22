@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {observer, inject} from 'mobx-react';
-import { mobxFirebaseAutoSubscriber } from 'firebase-nest-mobx-react';
+import { mobxFirebaseAutoSubscriber } from '../../../src/mobxFirebaseAutoSubscriber';
 
 import RegisterOrLogin from './RegisterOrLogin';
 
@@ -21,7 +21,6 @@ class MessageList extends Component {
         this.state = {
             newMessageText: '',
             error: null,
-            fetching: false,
             newMessageUid: 'cookiemonster'
         };
         this.addMessage = this.addMessage.bind(this);
@@ -70,7 +69,7 @@ class MessageList extends Component {
 
     renderMessage(messageKey, messageData) {
         const {chatStore} = this.props;
-        
+
         const user = chatStore.user(messageData.uid);
 
         return (
@@ -111,7 +110,7 @@ class MessageList extends Component {
         const messages = chatStore.allMsgs();
         const numMessages = messages ? messages.keys().length : 0;
 
-        const { newMessageText, newMessageUid, error, fetching } = this.state;
+        const { newMessageText, newMessageUid, error } = this.state;
 
         return (
             <div>
@@ -133,9 +132,7 @@ class MessageList extends Component {
                         </select>
                         <button onClick={this.addMessage}>Send</button>
                     </div>
-                    {fetching &&
-                    <div>Loading messages and users...</div>
-                    }
+                    
                     {messages &&
                     <div>
                         Messages:
