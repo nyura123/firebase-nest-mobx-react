@@ -2,7 +2,12 @@
 
 Creates a React HOC (higher-order-component) that subscribes to firebase data.
 
-Uses firebase-nest subscriptions: https://github.com/nyura123/firebase-nest
+Uses [firebase-nest](https://github.com/nyura123/firebase-nest) subscriptions.
+
+The HOC requires 2 properties:
+
+1. `getSubs: (props, state) => Array<Sub>` - function that returns an array of subscriptions
+2. `subscribeSubs: (subs) => unsubscribeFunction` - function that performs subscriptions & returns unsubscribe: ()=>void
 
 #### Install libs
 
@@ -11,9 +16,7 @@ Uses firebase-nest subscriptions: https://github.com/nyura123/firebase-nest
  `mobx-firebase-store` is optional, you can use other stores
 
 
-#### Use `mobx-react` `Provider` to inject your stores into `context`.
-
-For example, if using `mobx-firebase-store`:
+#### Example using `mobx-firebase-store`:
 
 ```js
 import firebase from 'firebase';
@@ -29,7 +32,11 @@ const chatStore = new MobxFirebaseStore(firebase.database().ref());
 const subscribeSubs = chatStore.subscribeSubs.bind(chatStore);
 ```
 
-App component can render:
+#### Can pass down stores and subscribeSubs+getSubs via mobx Provider & inject, or via direct props
+
+##### Example using Provider & mobx inject:
+
+App render:
 
 ```js
  <Provider chatStore={chatStore}
@@ -37,10 +44,6 @@ App component can render:
   <MessageList />
 </Provider>
 ```
-
-#### Inject `getSubs` and `subscribeSubs` along with any stores into your components
-
-Uses `mobx-react` `inject` under the hood.
 
 ```js
 
