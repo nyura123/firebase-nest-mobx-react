@@ -58,7 +58,6 @@ class MessageList extends Component {
               .then((res) => {
                   //Clear field
                   this.setState({newMessageText: ''})
-                  return
               })
               .catch((error) => {
                   //Clear field and show error
@@ -153,7 +152,7 @@ class MessageList extends Component {
                     </div>
 
                     {this.renderMessageCountsPerUser()}
-                    
+
                     {messages &&
                     <div>
                         Messages:

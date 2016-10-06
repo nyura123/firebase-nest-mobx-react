@@ -54,6 +54,14 @@ export default class ChatStore extends MobxFirebaseStore {
 
     }
 
+    cleanup() {
+        Object.keys(this.messageAutoRuns || []).forEach(messageKey => {
+            const disposer = this.messageAutoRuns[messageKey];
+            if (disposer) disposer();
+        });
+        this.allMessagesAutoRun && this.allMessagesAutoRun();
+    }
+
     setUpMessageAutoRun(messageKey, groupByUser) {
         if (this.messageAutoRuns[messageKey]) {
             return;

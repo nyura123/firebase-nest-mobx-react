@@ -84,7 +84,7 @@ export default mobxFirebaseAutoSubscriber(mobxInject)(observer((MessageList)));
 
 #### Full chat example via storybook
 
-Includes auth, error handling, writing to firebase, nested subscriptions
+Includes auth, derived/denormalized data, error handling, writing to firebase, nested subscriptions
 
 1. `cd examples-storybook-firebase3`
 

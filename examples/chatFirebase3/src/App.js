@@ -18,8 +18,9 @@ export default class ChatApp extends Component {
     }
 
     componentWillUnmount() {
-        if (this.stores && this.stores.authStore) {
-            this.stores.authStore.cleanup();
+        if (this.stores) {
+            this.stores.authStore && this.stores.authStore.cleanup();
+            this.stores.chatStore && this.stores.chatStore.cleanup();
         }
     }
 
