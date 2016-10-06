@@ -104,6 +104,25 @@ class MessageList extends Component {
         });
     }
 
+    renderMessageCountsPerUser() {
+
+        const { chatStore } = this.props;
+
+        const users = chatStore.allUsers();
+        if (!users) return null;
+
+        return users.entries().map(entry => {
+            const uid = entry[0];
+            const userData = entry[1];
+            const numMessages = chatStore.numMessagesForUser(uid);
+            return (
+              <div key={uid} value={uid}>
+                  {userData.first}{' '}{userData.last} #messages: {numMessages}
+              </div>
+            );
+        });
+    }
+
     render() {
         const { chatStore } = this.props;
 
@@ -132,6 +151,8 @@ class MessageList extends Component {
                         </select>
                         <button onClick={this.addMessage}>Send</button>
                     </div>
+
+                    {this.renderMessageCountsPerUser()}
                     
                     {messages &&
                     <div>
