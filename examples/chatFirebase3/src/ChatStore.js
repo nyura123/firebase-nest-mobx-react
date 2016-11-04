@@ -13,8 +13,8 @@ import { autorun, map } from 'mobx';
 import { incrementalGrouping } from './incrementalGrouping';
 
 export default class ChatStore extends MobxFirebaseStore {
-    constructor() {
-        super(firebase.database().ref());
+    constructor(fbApp) {
+        super(firebase.database(fbApp).ref());
 
         //derived data populated by auto-runs
         this.numMessagesPerUser = map({});
@@ -27,15 +27,15 @@ export default class ChatStore extends MobxFirebaseStore {
             messageCache: {}
         };
 
+        const groupByUser = incrementalGrouping({
+            getGroupKeys: message => [message.uid],
+            onUpdatedInGroup: this.messageUpdatedForUser
+        });
+
         this.allMessagesAutoRun = autorun(() => {
             const messages = this.allMsgs();
 
             console.log('all msgs autorun');
-
-            const groupByUser = incrementalGrouping({
-                    getGroupKeys: message => [message.uid],
-                    onUpdatedInGroup: this.messageUpdatedForUser
-                });
 
             messages && (messages.keys()).forEach(messageKey => {
                 this.setUpMessageAutoRun(messageKey, groupByUser);
@@ -142,6 +142,7 @@ export default class ChatStore extends MobxFirebaseStore {
             // equalTo: 'hello',
 
             //nested subscription - subscribe to each message's user
+            //and individual message for derived data (# msgs per user)
             forEachChild: {
                 childSubs: function(messageKey, messageData) {
                     return [{

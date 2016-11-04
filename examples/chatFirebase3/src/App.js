@@ -10,11 +10,13 @@ import AuthStore from './AuthStore';
 import MessageList from './MessageList';
 
 export default class ChatApp extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props);
         this.stores = {
-            chatStore: new ChatStore(),
-            authStore: new AuthStore()
+            chatStore: new ChatStore(props.fbApp),
+            authStore: new AuthStore(props.fbApp)
         }
+        this.subscribeSubs = this.stores.chatStore.subscribeSubs.bind(this.stores.chatStore);
     }
 
     componentWillUnmount() {
@@ -25,11 +27,10 @@ export default class ChatApp extends Component {
     }
 
     render() {
-        const subscribeSubs = this.stores.chatStore.subscribeSubs.bind(this.stores.chatStore);
         return (
           <Provider chatStore={this.stores.chatStore}
                     authStore={this.stores.authStore}
-                    subscribeSubs={subscribeSubs}>
+                    subscribeSubs={this.subscribeSubs}>
               <MessageList />
           </Provider>
         )

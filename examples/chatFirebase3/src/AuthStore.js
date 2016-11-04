@@ -4,12 +4,14 @@ import firebase from 'firebase';
 import { observable } from 'mobx';
 
 export default class AuthStore {
-    constructor() {
+    constructor(fbApp) {
+        this.fbApp = fbApp;
+
         this.auth = observable({
             authUser: null
         });
 
-        this.unwatchAuth = firebase.auth().onAuthStateChanged(user => {
+        this.unwatchAuth = firebase.auth(this.fbApp).onAuthStateChanged(user => {
             this.auth.authUser = user;
         });
     }
@@ -25,14 +27,14 @@ export default class AuthStore {
     }
 
     signIn({email, password}) {
-        return firebase.auth().signInWithEmailAndPassword(email, password);
+        return firebase.auth(this.fbApp).signInWithEmailAndPassword(email, password);
     }
 
     createUser({email, password}) {
-        return firebase.auth().createUserWithEmailAndPassword(email, password);
+        return firebase.auth(this.fbApp).createUserWithEmailAndPassword(email, password);
     }
 
     signOut() {
-        return firebase.auth().signOut();
+        return firebase.auth(this.fbApp).signOut();
     }
 }
