@@ -39,14 +39,14 @@ export default class MiniExample extends Component {
         this.store = new MobxFirebaseStore(firebase.database(props.fbApp).ref());
     }
 
-    getSubs(props, state) {
+    getSubs(props) {
         return [{
             subKey: 'msgs', //can use any name you want to describe the data source/subscription
             asList: true,
             path: 'samplechat/messages' //firebase location
         }]
     }
-    subscribeSubs = (subs, props, state) => {
+    subscribeSubs = (subs, props) => {
         return this.store.subscribeSubs(subs);
     }
 

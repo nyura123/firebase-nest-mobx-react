@@ -6,7 +6,7 @@ Uses [firebase-nest](https://github.com/nyura123/firebase-nest) subscriptions.
 
 The HOC requires 2 properties:
 
-1. `getSubs: (props, state) => Array<Sub>` - function that returns an array of subscriptions
+1. `getSubs: (props) => Array<Sub>` - function that returns an array of subscriptions
 2. `subscribeSubs: (subs) => unsubscribeFunction` - function that performs subscriptions & returns unsubscribe: ()=>void
 
 #### Install libs
@@ -22,7 +22,7 @@ The HOC requires 2 properties:
 import React, { Component, PropTypes } from 'react';
 import MobxFirebaseStore from 'mobx-firebase-store';
 import firebase from 'firebase';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 
 import { mobxFirebaseAutoSubscriber } from 'firebase-nest-mobx-react';
 
@@ -69,7 +69,8 @@ export default class MiniExample extends Component {
 
 
     //getSubs and subscribeSubs needed by mobxFirebaseAutoSubscriber
-    getSubs(props, state) {
+    //props are what's passed to MessageList (not MiniExample)
+    getSubs(props) {
         console.log('getSubs')
         return [{
             subKey: 'msgs', //can use any name you want; use same name in store.getData
@@ -77,7 +78,7 @@ export default class MiniExample extends Component {
             path: 'samplechat/messages' //firebase location
         }]
     }
-    subscribeSubs = (subs, props, state) => {
+    subscribeSubs = (subs, props) => {
         return this.store.subscribeSubs(subs);
     }
 
@@ -132,8 +133,8 @@ function mobxInject(allStores) {
         
         subscribeSubs: allStores.subscribeSubs, //careful if using multiple stores
     
-        //subscriptions based on props, state, and possibly observables
-        getSubs: (props, state) => {           
+        //subscriptions based on props and possibly observables
+        getSubs: (props) => {           
                 return [{
                     subKey: 'msgs',
                     asList: true,

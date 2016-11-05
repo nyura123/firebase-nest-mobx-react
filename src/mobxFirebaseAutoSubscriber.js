@@ -23,18 +23,18 @@ export function mobxFirebaseAutoSubscriber(mobxInjectInfo) {
       }
 
       componentDidMount() {
-        this.updateSubscriptions(this.props, this.state);
+        this.updateSubscriptions(this.props);
       }
 
       componentDidUpdate() {
-        this.updateSubscriptions(this.props, this.state);
+        this.updateSubscriptions(this.props);
       }
 
       componentWillUnmount() {
         this.unsubscribe();
       }
 
-      updateSubscriptions(props, state) {
+      updateSubscriptions(props) {
         const { subscribeSubs } = this.props;
 
         const subs = wrapSubs(this.latestSubs);
@@ -42,7 +42,7 @@ export function mobxFirebaseAutoSubscriber(mobxInjectInfo) {
           //Only unsubscribe/subscribe if subKeys have changed
           this._subs = subs;
           var unsub = this._unsub;
-          this._unsub = subscribeSubs(subs, props, state);
+          this._unsub = subscribeSubs(subs, props);
           //Unsubscribe from old subscriptions
           if (unsub)
             unsub();
@@ -60,7 +60,7 @@ export function mobxFirebaseAutoSubscriber(mobxInjectInfo) {
         const {getSubs, ...props} = this.props;
 
         //Trigger updating based on observables accessed in getSubs
-        this.latestSubs = getSubs(this.props, this.state);
+        this.latestSubs = getSubs(this.props);
 
         return <WrappedComponent {...props} />
       }

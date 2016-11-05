@@ -175,7 +175,7 @@ function mobxInject(allStores) {
     return {
         chatStore,
         subscribeSubs: allStores.subscribeSubs,
-        getSubs: (props, state) => {
+        getSubs: (props) => {
             //Subscriptions based on observable authStore.authUser() -- will be called
             //whenever the observable changes.
             return authStore.authUser() ? chatStore.allMsgsSubs().concat(chatStore.allUsersSubs()) : []
