@@ -1,7 +1,7 @@
 {
   "name": "firebase-nest-mobx-react",
   "version": "1.0.1",
-  "description": "a React HOC (higher-order-component) that subscribes to firebase data",
+  "description": "a React HOC (higher-order component) that subscribes to firebase data",
   "keywords": [
     "firebase",
     "nested queries",
