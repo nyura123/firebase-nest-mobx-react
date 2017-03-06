@@ -18,7 +18,7 @@ storiesOf('Mini', module)
   });
 
 const chatFbApp = firebase.initializeApp({
-  apiKey: 'youApiKey',
+  apiKey: 'yourApiKey',
   authDomain: "localhost",
   databaseURL: 'https://testing-3bba1.firebaseio.com',
   storageBucket: 'testing-3bba1.firebaseio.com'
