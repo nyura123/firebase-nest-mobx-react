@@ -1,4 +1,4 @@
-#### mobxFirebaseAutoSubscriber
+#### mobxFirebaseAutoSubscriber - DEPRECATED
 
 Creates a React HOC (higher-order-component) that subscribes to firebase data.
 
